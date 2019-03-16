@@ -3,36 +3,54 @@ require 'spec_helper'
 describe "Working with Regular expressions" do
   describe "#starts_with_a_vowel?" do
     it "returns true for words starting with a vowel" do
-      match = %w{ afoot Excellent incredible Absolute unreal Inconceivable octopus }
+      matching_words = [ "afoot", "Excellent", "incredible", "Absolute",
+                         "unreal", "Inconceivable", "octopus" ]
 
-      match.each do |word|
+      matching_words.each do |word|
         expect(starts_with_a_vowel?(word)).to be(true)
       end
     end
 
     it "returns false for words starting with a consonant" do
-      do_not_match = %w{ chandoo Crenel crooked Flimsy folksy Dog Hermit
-     makeshift Palazzi sixfold Truth }
+      nonmatching_words = [ "chandoo", "Crenel", "crooked", "Flimsy", "folksy", "Dog",
+                            "Hermit", "makeshift", "Palazzi", "sixfold", "Truth" ]
 
-      do_not_match.each do |word|
+      nonmatching_words.each do |word|
         expect(starts_with_a_vowel?(word)).to be(false)
       end
     end
   end
 
+  describe "#words_starting_with_con" do
+    it "returns an array with the words starting with 'un' and ending with 'ing'" do
+      words_string =
+        "conceive think change convince concrete xylophone Nitro concat context contact do coerce"
+
+      expect(words_starting_with_con(words_string)).to be_a Array
+      expect(words_starting_with_con(words_string).count).to eq(6)
+      expect(words_starting_with_con(words_string)).to include("context")
+      expect(words_starting_with_con(words_string)).not_to include("coerce")
+    end
+  end
+
   describe "#words_starting_with_un_and_ending_with_ing" do
     it "returns an array with the words starting with 'un' and ending with 'ing'" do
-      words_string = "unassuming ambiguous understanding pomp circumstance uninteresting uncompromising grouchy corollary"
-      
-      expect(words_starting_with_un_and_ending_with_ing(words_string).count).to eq(4)
+      words_string =
+        "unassuming unlike ambiguous understanding pomp uninteresting grouchy nonmatching"
+
+      expect(words_starting_with_un_and_ending_with_ing(words_string)).to be_a Array
+      expect(words_starting_with_un_and_ending_with_ing(words_string).count).to eq(3)
       expect(words_starting_with_un_and_ending_with_ing(words_string)).to include("understanding")
-      expect(words_starting_with_un_and_ending_with_ing(words_string)).not_to include("pomp")
+      expect(words_starting_with_un_and_ending_with_ing(words_string)).not_to include("unlike")
+      expect(words_starting_with_un_and_ending_with_ing(words_string)).not_to include("nonmatching")
     end
   end
 
   describe "#words_five_letters_long" do
     it "returns an array of words that are five letters long" do
       words_string = "extreme briny crepe parking snaps grouping snafu round dog be fork spoon"
+
+      expect(words_five_letters_long(words_string)).to be_a Array
       expect(words_five_letters_long(words_string).count).to eq(6)
       expect(words_five_letters_long(words_string)).to include("snafu")
       expect(words_five_letters_long(words_string)).not_to include("fork")
@@ -61,16 +79,14 @@ describe "Working with Regular expressions" do
   end
 
   describe "#valid_phone_number?" do
-    it "returns true for valid phone numbers, regardless of formatting" do
+    it "returns true for valid 10-digit phone numbers, regardless of formatting" do
       valid_numbers = ["2438894546", "(718)891-1313", "234 435 9978", "(800)4261134"]
       expect(valid_numbers.all? { |number| valid_phone_number?(number) }).to be(true)
     end
 
-    it "returns false for invalid phone numbers, regardless of formatting" do
+    it "returns false for invalid non 10-digit phone numbers, regardless of formatting" do
       valid_numbers = ["28894546", "(718)891-13135", "234 43 9978", "(800)IloveNY"]
       expect(valid_numbers.all? { |number| valid_phone_number?(number) }).to be(false)
     end
   end
-
-
 end
