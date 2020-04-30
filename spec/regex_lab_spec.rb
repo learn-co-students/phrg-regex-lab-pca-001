@@ -22,7 +22,7 @@ describe "Working with Regular expressions" do
   end
 
   describe "#words_starting_with_con" do
-    it "returns an array with the words starting with 'un' and ending with 'ing'" do
+    it "returns an array with the words starting with 'con'." do
       words_string =
         "conceive think change convince concrete xylophone Nitro concat context contact do coerce"
 
